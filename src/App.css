@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 .App {
   text-align: center;
 }
@@ -36,3 +40,125 @@
     transform: rotate(360deg);
   }
 }
+
+/********** Navbar Css **********/
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #ffffff; /* Fondo blanco */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Añade una sombra ligera */
+  z-index: 10;
+  padding: 10px 0; /* Añade algo de padding para mejorar el espaciado vertical */
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-left: -200px; /* Espaciado entre el borde izquierdo y el logo */
+}
+
+.navbar-brand img {
+  width: 80px; /* Tamaño del logo */
+  height: auto;
+  margin-right: 10px; /* Espaciado entre el logo y el texto */
+}
+
+.navbar-item {
+  margin: 0 20px; /* Espaciado horizontal entre los elementos del menú */
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.navbar-item a {
+  color: #333333; /* Color del texto */
+  text-decoration: none;
+  transition: color 0.3s ease; /* Transición suave en el color al hacer hover */
+}
+
+.navbar-item a:hover {
+  color: #04a42c; /* Cambia el color al hacer hover */
+}
+
+.navbar-item .active {
+  color: #34c759; /* Color del enlace activo */
+  font-weight: bold; /* Resalta el enlace activo */
+}
+
+.navbar-button {
+  background-color: #34c759; /* Color del botón de registro */
+  color: white;
+  padding: 8px 20px;
+  border-radius: 25px;
+  font-weight: bold;
+  transition: background-color 0.3s ease; /* Transición suave en el color de fondo */
+}
+
+.navbar-button:hover {
+  background-color: #34c759; /* Cambia el color del botón al hacer hover */
+}
+
+.navbar-login {
+  margin: 0 40px; /* Espaciado horizontal entre los elementos del menú */
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+
+
+/********** Banner Css **********/
+
+/* Estilo para la imagen de fondo */
+.banner {
+  background-image: url('./assets/img/background-img-v2.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh; /* Ocupar toda la altura de la pantalla */
+}
+
+/* Estilos para el contenedor principal */
+.banner-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  height: 100vh;
+  margin-left: 30px; /* Cambia este valor para ajustar la alineación */
+}
+
+
+
+/* Estilos para el texto */
+.banner-text {
+  font-family: 'unbounded', sans-serif; /* Fuente redondeada y moderna */
+  font-size: 5rem; /* Tamaño grande */
+  font-weight: 700; /* Negrita */
+  color: #ffffff; /* Color blanco */
+  text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.4); /* Sombra del texto */
+  line-height: 1.1; /* Espaciado entre líneas */
+  text-align: left; /* Alinear a la izquierda */
+}
+
+/* Estilos para el botón */
+.banner-button {
+  background-color: #34c759; /* Verde vibrante */
+  color: white;
+  font-size: 1.8rem; /* Texto más grande en el botón */
+  padding: 15px 40px; /* Aumentar el tamaño del botón */
+  border-radius: 30px; /* Bordes redondeados */
+  border: none;
+  font-weight: 600; /* Texto en negrita */
+  cursor: pointer; /* Cambiar cursor */
+  box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.3); /* Sombra en el botón */
+  transition: background-color 0.3s ease;
+}
+
+.banner-button:hover {
+  background-color: #28a745; /* Cambio de color al pasar el ratón */
+}
+
