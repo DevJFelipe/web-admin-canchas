@@ -44,32 +44,19 @@
 /********** Navbar Css **********/
 
 .navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
   width: 100%;
   background-color: #ffffff; /* Fondo blanco */
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Añade una sombra ligera */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+  position: fixed;
   z-index: 10;
-  padding: 10px 0; /* Añade algo de padding para mejorar el espaciado vertical */
-}
-
-.navbar-brand {
-  display: flex;
-  align-items: center;
-  font-size: 1.5rem;
-  font-weight: bold;
-  margin-left: -200px; /* Espaciado entre el borde izquierdo y el logo */
-}
-
-.navbar-brand img {
-  width: 80px; /* Tamaño del logo */
-  height: auto;
-  margin-right: 10px; /* Espaciado entre el logo y el texto */
 }
 
 .navbar-item {
-  margin: 0 20px; /* Espaciado horizontal entre los elementos del menú */
+  margin: 0.5rem 0;
   font-size: 1rem;
   font-weight: 500;
 }
@@ -89,25 +76,46 @@
   font-weight: bold; /* Resalta el enlace activo */
 }
 
-.navbar-button {
-  background-color: #34c759; /* Color del botón de registro */
+.navbar-buttons {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Espaciado entre los botones */
+  justify-content: flex-end;
+}
+
+.navbar-button-login {
+  background-color: #34c759; /* Color del botón de login */
   color: white;
   padding: 8px 20px;
   border-radius: 25px;
   font-weight: bold;
-  transition: background-color 0.3s ease; /* Transición suave en el color de fondo */
+  transition: background-color 0.3s ease;
 }
 
-.navbar-button:hover {
-  background-color: #34c759; /* Cambia el color del botón al hacer hover */
+.navbar-button-registro {
+  background-color: #ffffff; /* Color del botón de registro */
+  color: #1e1e1e;
+  padding: 8px 20px;
+  border-radius: 25px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
 }
 
-.navbar-login {
-  margin: 0 40px; /* Espaciado horizontal entre los elementos del menú */
-  font-size: 1rem;
-  font-weight: 500;
+.navbar-button-registro:hover {
+  background-color: #34c759;
+  color: white;
+  padding: 8px 20px;
+  border-radius: 25px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
 }
 
+.navbar-content {
+  display: flex;
+  flex-grow: 1; /* Asegura que ocupe el espacio disponible */
+  justify-content: space-between;
+  align-items: center;
+}
 
 
 /********** Banner Css **********/
