@@ -1,3 +1,6 @@
+import React from 'react';
+import SearchBar from './SearchBar';
+
 export const Banner = () => {
     return (
         <div className="banner h-screen bg-cover bg-center flex items-center" id="home">
@@ -5,10 +8,9 @@ export const Banner = () => {
             <h1 className="text-white font-bold mb-8 leading-tight banner-text">
               Reserva <br/>tu cancha <br /> al instante
             </h1>
-    
-            <button className="banner-button">
-              Buscar canchas
-            </button>
+          </div>
+          <div>
+            <SearchBar />
           </div>
         </div>
       );
