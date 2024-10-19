@@ -37,7 +37,7 @@ const NavBar = () => {
           </Button>
         </NavbarItem>
         <NavbarItem>
-          <Button as={Link} href="#" variant="flat" className="navbar-button-registro">
+          <Button as={Link} href="/register" variant="flat" className="navbar-button-registro">
             Registrate
           </Button>
         </NavbarItem>
