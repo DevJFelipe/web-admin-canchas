@@ -1,22 +1,25 @@
 import './App.css';
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import NavBar from './components/NavBar';
-import Banner from './components/Banner';
-import Benefits from './components/Benefits';
-import Sponsors from './components/Sponsors';
-import ColombiaPresence from './components/ColombiaPresence';
-import Footer from './components/Footer';
+import Home from './pages/Home';
+import Login from './pages/Login';
 
 function App() {
   return (
-    <div className="App">
-      <NavBar />
-      <Banner />
-      <Benefits />
-      <Sponsors />
-      <ColombiaPresence />
-      <Footer />
-    </div>
+    <Router>
+      <div className="App">
+        <NavBar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
 export default App;
+
+
+
