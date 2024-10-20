@@ -45,7 +45,6 @@
 
 .navbar {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
   width: 100%;
@@ -55,8 +54,23 @@
   z-index: 10;
 }
 
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.navbar-content {
+  display: flex;
+  flex-grow: 1; /* Asegura que ocupe el espacio disponible */
+  justify-content: center; /* Centra los elementos */
+  gap: 2rem; /* Espaciado uniforme entre enlaces */
+  align-items: center; /* Alineación vertical */
+}
+
 .navbar-item {
-  margin: 0.5rem 0;
+  margin: 0; /* Elimina márgenes innecesarios para mantener la alineación */
+  padding: 0.5rem; /* Padding para hacer clic más fácilmente */
   font-size: 1rem;
   font-weight: 500;
 }
@@ -104,17 +118,6 @@
 .navbar-button-registro:hover {
   background-color: #34c759;
   color: white;
-  padding: 8px 20px;
-  border-radius: 25px;
-  font-weight: bold;
-  transition: background-color 0.3s ease;
-}
-
-.navbar-content {
-  display: flex;
-  flex-grow: 1; /* Asegura que ocupe el espacio disponible */
-  justify-content: space-between;
-  align-items: center;
 }
 
 

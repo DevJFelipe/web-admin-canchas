@@ -4,25 +4,25 @@ import Logo from "./Logo.jsx";
 
 const NavBar = () => {
   return (
-    <Navbar shouldHideOnScroll className='navbar w-full font-platypi justify-between max-w-full'>
-      {/* Contenido del lado izquierdo */}
-      <NavbarBrand>
+    <Navbar shouldHideOnScroll className='navbar flex items-center px-6 py-0 bg-white shadow-md w-full font-platypi'>
+      {/* Contenido del lado izquierdo (Logo y nombre de la pagina) */}
+      <NavbarBrand className="justify-start flex items-center gap-3">
         <Logo />
       </NavbarBrand>
 
       {/* Contenido del centro (enlaces de navegación) */}
-      <NavbarContent className="hidden sm:flex gap-4 justify-center max-w-sm navbar-content">
-        <NavbarItem className="navbar-item">
+      <NavbarContent className="hidden md:flex gap-8 justify-center">
+        <NavbarItem>
           <Link color="foreground" href="/" aria-current="page" className="active">
             Home
           </Link>
         </NavbarItem>
-        <NavbarItem className="navbar-item">
+        <NavbarItem>
           <Link href="#">
             Reserva tu cancha
           </Link>
         </NavbarItem>
-        <NavbarItem className="navbar-item">
+        <NavbarItem>
           <Link color="foreground" href="#">
             Quienes somos
           </Link>
@@ -30,9 +30,9 @@ const NavBar = () => {
       </NavbarContent>
 
       {/* Contenido del lado derecho (Inicia sesión y Regístrate) */}
-      <NavbarContent className="flex flex-nowrap flex-grow gap-4 justify-end navbar-buttons">
+      <NavbarContent className="flex items-center gap-4 justify-end">
         <NavbarItem>
-          <Button as={Link} href="/login" variant="flat" className="navbar-button-login">
+          <Button as={Link} href="/login" variant="flat" className="bg-green-500 text-white navbar-button-login">
             Inicia sesión
           </Button>
         </NavbarItem>
@@ -47,4 +47,3 @@ const NavBar = () => {
 };
 
 export default NavBar;
-
