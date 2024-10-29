@@ -82,29 +82,6 @@ const CanchaReserva = () => {
             Siguiente
           </Button>
       </main>
-
-      <nav className="bottom-0 w-full bg-white flex justify-around items-center py-2 shadow-md">
-        <button className="flex flex-col items-center text-gray-700">
-          <span>🏠</span>
-          <span className="text-xs">Inicio</span>
-        </button>
-        <button className="flex flex-col items-center text-gray-700">
-          <span>📍</span>
-          <span className="text-xs">Reservas</span>
-        </button>
-        <button className="flex flex-col items-center text-gray-700">
-          <span>👥</span>
-          <span className="text-xs">Match</span>
-        </button>
-        <button className="flex flex-col items-center text-gray-700">
-          <span>👤</span>
-          <span className="text-xs">Perfil</span>
-        </button>
-        <button className="flex flex-col items-center text-purple-500">
-          <span>💎</span>
-          <span className="text-xs">Prime</span>
-        </button>
-      </nav>
     </div>
   );
 };
