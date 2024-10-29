@@ -50,7 +50,6 @@
   width: 100%;
   background-color: #ffffff; /* Fondo blanco */
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Sombra ligera */
-  position: fixed;
   z-index: 10;
 }
 
@@ -173,3 +172,14 @@
   background-color: #28a745; /* Cambio de color al pasar el ratón */
 }
 
+/******* Reservation page css *******/
+
+div.marker {
+  background-color: red;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

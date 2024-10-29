@@ -6,7 +6,7 @@ const NavBar = () => {
   return (
     <Navbar shouldHideOnScroll className='navbar flex items-center px-6 py-0 bg-white shadow-md w-full font-platypi'>
       {/* Contenido del lado izquierdo (Logo y nombre de la pagina) */}
-      <NavbarBrand className="justify-start flex items-center gap-3">
+      <NavbarBrand className="navbar-brand justify-start flex items-center gap-3">
         <Logo />
       </NavbarBrand>
 
@@ -18,7 +18,7 @@ const NavBar = () => {
           </Link>
         </NavbarItem>
         <NavbarItem>
-          <Link href="#">
+          <Link href="/reservation">
             Reserva tu cancha
           </Link>
         </NavbarItem>
@@ -30,7 +30,7 @@ const NavBar = () => {
       </NavbarContent>
 
       {/* Contenido del lado derecho (Inicia sesión y Regístrate) */}
-      <NavbarContent className="flex items-center gap-4 justify-end">
+      <NavbarContent className="navbar-buttons flex items-center gap-4 justify-end">
         <NavbarItem>
           <Button as={Link} href="/login" variant="flat" className="bg-green-500 text-white navbar-button-login">
             Inicia sesión
