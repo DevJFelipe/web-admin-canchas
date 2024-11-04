@@ -1,24 +1,26 @@
+import React, { useContext, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { Card, CardBody, Image } from "@nextui-org/react";
 import { HiLocationMarker } from "react-icons/hi";
 import { MdSportsSoccer } from "react-icons/md";
-import { useState, useEffect } from "react";
 import { MapContainer, TileLayer, Marker, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
+import { FieldContext } from "../context/FieldContext"; // Importar el contexto
 
 const DetailedFieldView = () => {
+  const { fields } = useContext(FieldContext);
   const location = useLocation();
   const { state } = location;
 
-  // Declarar hooks al inicio
-  const [field, setField] = useState(state?.field || null);
-  const [selectedDate, setSelectedDate] = useState("Hoy 21/10");
+  // Buscar el campo específico usando la información proporcionada desde la navegación (estado)
+  const [field, setField] = useState(null);
 
   useEffect(() => {
     if (state && state.field) {
-      setField(state.field);
+      const selectedField = fields.find(f => f.title === state.field.title);
+      setField(selectedField);
     }
-  }, [state]);
+  }, [state, fields]);
 
   if (!field) {
     return <div>Campo no encontrado. Regrese y seleccione un campo.</div>;
@@ -80,7 +82,7 @@ const DetailedFieldView = () => {
             <span className="font-bold">Fútbol</span>
           </div>
           <div className="flex items-center">
-            <span className="mr-2">{selectedDate}</span>
+            <span className="mr-2">Hoy 21/10</span>
           </div>
         </div>
         <div className="grid grid-cols-12 gap-2">

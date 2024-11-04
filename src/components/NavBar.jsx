@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Button } from "@nextui-org/react";
-import Logo from "./Logo.jsx";
+import Logo from "./Logo";
+import { AuthContext } from '../context/AuthContext';
 
 const NavBar = () => {
+  const { userRole } = useContext(AuthContext) || {};
+
   return (
     <Navbar shouldHideOnScroll className='navbar flex items-center px-6 py-0 bg-white shadow-md w-full font-platypi'>
       {/* Contenido del lado izquierdo (Logo y nombre de la pagina) */}
@@ -29,8 +32,15 @@ const NavBar = () => {
         </NavbarItem>
       </NavbarContent>
 
-      {/* Contenido del lado derecho (Inicia sesión y Regístrate) */}
+      {/* Contenido del lado derecho (Inicia sesión, Regístrate y Admin) */}
       <NavbarContent className="navbar-buttons flex items-center gap-4 justify-end">
+        {userRole === 'admin' && (
+          <NavbarItem>
+            <Button as={Link} href="/admin" variant="flat" className="bg-blue-500 text-white navbar-button-admin">
+              Admin
+            </Button>
+          </NavbarItem>
+        )}
         <NavbarItem>
           <Button as={Link} href="/login" variant="flat" className="bg-green-500 text-white navbar-button-login">
             Inicia sesión

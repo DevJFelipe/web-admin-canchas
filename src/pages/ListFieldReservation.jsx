@@ -1,15 +1,14 @@
-import { Card, CardHeader, CardBody, Image } from "@nextui-org/react";
+import React, { useContext, useState } from 'react';
+import { Card, CardBody, Image, Input, Button } from "@nextui-org/react";
 import { HiLocationMarker } from "react-icons/hi";
-import { MdSportsSoccer } from "react-icons/md";
 import { FiCalendar, FiClock } from "react-icons/fi";
-import { useState } from "react";
-import { Input, Button } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
+import { FieldContext } from '../context/FieldContext'; // Importar el contexto
 
 const FieldCard = ({ title, address, imageSrc, rating, onSelect }) => {
   return (
     <div onClick={onSelect} className="cursor-pointer w-full h-full">
-      <Card className={`shadow-lg transition-transform transform hover:scale-105 hover:shadow-xl`}>
+      <Card className={"shadow-lg transition-transform transform hover:scale-105 hover:shadow-xl"}>
         <Image
           src={imageSrc}
           alt={title}
@@ -29,24 +28,10 @@ const FieldCard = ({ title, address, imageSrc, rating, onSelect }) => {
 };
 
 const ListFieldReservation = () => {
+  const { fields } = useContext(FieldContext); // Obtener las canchas del contexto
   const navigate = useNavigate();
-  const fields = [
-    {
-      title: "LA CALDERA",
-      address: "6to Piso La 14 Avenida 6ta Avenida 6N #3...",
-      imageSrc: require("../assets/img/cancha1.jpeg"),
-      rating: 5,
-    },
-    {
-      title: "La Chilena Sintéticas",
-      address: "Km 5 vía Panamericana Cali-Jamundí ...",
-      imageSrc: require("../assets/img/cancha2.jpg"),
-      rating: 5,
-    },
-  ];
 
   const handleSelectField = (field) => {
-    console.log("Field selected:", field);
     navigate("/detailed-field", { state: { field } });
   };
 

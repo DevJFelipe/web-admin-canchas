@@ -1,8 +1,30 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
 import { FaGoogle, FaApple, FaFacebookF } from 'react-icons/fa';
 import bgImage from '../assets/img/bg-image-login.png';
+import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext'; // Importar el contexto
 
 const Login = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+  const { login } = useContext(AuthContext); // Obtener la función de login desde el contexto
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    
+    // Simulación de autenticación
+    if (email === 'admin@example.com' && password === 'password123') {
+      login('admin'); // Llamar a la función de login del contexto con el rol "admin"
+      navigate('/');
+    } else if (email === 'user@example.com' && password === 'password123') {
+      login('user'); // Llamar a la función de login del contexto con el rol "user"
+      navigate('/');
+    } else {
+      alert('Usuario o contraseña incorrecta');
+    }
+  };
+
   return (
     <div
       className="login-page"
@@ -19,13 +41,15 @@ const Login = () => {
       <div className="login-container bg-white p-8 rounded shadow-lg">
         <h2 className="text-2xl font-bold text-center mb-6">Iniciar sesión</h2>
         <p className="text-center mb-4">¿Nunca usaste Playground? <a href="/register" className="text-green-500">Regístrate gratis</a></p>
-        <form>
+        <form onSubmit={handleLogin}>
           <div className="mb-4">
             <label className="block text-sm font-medium mb-1">Correo electrónico</label>
             <input
               type="email"
               placeholder="johndoe@example.com"
               className="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-green-500"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
           <div className="mb-4">
@@ -34,6 +58,8 @@ const Login = () => {
               type="password"
               placeholder="********"
               className="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-green-500"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
           <div className="flex items-center mb-4">
@@ -65,4 +91,3 @@ const Login = () => {
 };
 
 export default Login;
-
