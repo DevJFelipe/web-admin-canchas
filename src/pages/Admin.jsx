@@ -1,149 +1,173 @@
 import { Card, CardBody, Image } from "@nextui-org/react";
 import { MdEdit, MdDelete } from "react-icons/md";
 import { useState, useContext } from "react";
-import { Input, Button, Modal, Textarea } from "@nextui-org/react";
 import { FieldContext } from "../context/FieldContext";
 
 const Admin = () => {
   const { fields, addField, editField, deleteField } = useContext(FieldContext);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newField, setNewField] = useState({
-    title: "",
-    address: "",
-    imageSrc: "",
-    rating: 5,
+    descripcion: "",
+    precio: "",
+    estado: "Disponible",
   });
   const [editingFieldIndex, setEditingFieldIndex] = useState(null);
 
-  // Función para abrir el modal para añadir una nueva cancha
+  // Función para abrir el modal para añadir o editar cancha
   const openAddModal = () => {
-    setNewField({ title: "", address: "", imageSrc: "", rating: 5 });
+    setNewField({ descripcion: "", precio: "", estado: "Disponible" });
     setEditingFieldIndex(null);
     setIsModalOpen(true);
   };
 
-  // Función para abrir el modal para editar una cancha
   const openEditModal = (index) => {
+    const fieldToEdit = fields[index];
+    setNewField(fieldToEdit);
     setEditingFieldIndex(index);
-    setNewField(fields[index]);
     setIsModalOpen(true);
   };
 
   // Función para cerrar el modal
   const closeModal = () => {
     setIsModalOpen(false);
-    setNewField({ title: "", address: "", imageSrc: "", rating: 5 });
+    setNewField({ descripcion: "", precio: "", estado: "Disponible" });
     setEditingFieldIndex(null);
   };
 
-  // Función para manejar los cambios en el formulario de añadir/editar cancha
+  // Manejar cambios en los inputs del formulario
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setNewField({ ...newField, [name]: value });
+    setNewField((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
-  // Función para guardar cambios (añadir o editar)
+  // Función para añadir o editar cancha
   const handleSaveField = () => {
-    if (editingFieldIndex !== null) {
-      editField(editingFieldIndex, newField);
-    } else {
-      addField(newField);
+    if (!newField.descripcion || !newField.precio) {
+      alert("Todos los campos son obligatorios");
+      return;
     }
+
+    // Crear el objeto con los datos que se enviarán
+    const fieldData = {
+      descripcion: newField.descripcion,
+      precio: parseFloat(newField.precio), // Convertir precio a número
+      estado: newField.estado,
+    };
+
+    // Confirmar que se están enviando los datos correctos
+    console.log("Datos a enviar:", fieldData);
+
+    if (editingFieldIndex !== null) {
+      // Editar cancha existente
+      editField(editingFieldIndex, fieldData);
+    } else {
+      // Añadir nueva cancha
+      addField(fieldData);
+    }
+
     closeModal();
+  };
+
+  // Función para eliminar una cancha
+  const handleDeleteField = (index) => {
+    if (window.confirm("¿Estás seguro de que quieres eliminar esta cancha?")) {
+      deleteField(index);
+    }
   };
 
   return (
     <div className="container mx-auto p-4">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Panel de Administración</h1>
-        <Button
+        <button
           onClick={openAddModal}
-          auto
-          className="bg-green-500 text-white hover:bg-green-600"
+          className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600"
         >
           Añadir Cancha +
-        </Button>
+        </button>
       </div>
 
       {/* Lista de canchas */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {fields.map((field, index) => (
-          <Card key={index} className="shadow-lg transition-transform transform hover:scale-105 hover:shadow-xl relative">
-            <Image
-              src={field.imageSrc}
-              alt={field.title}
-              className="w-full h-36 object-cover"
-            />
+          <Card key={index} className="shadow-lg hover:scale-105 transform transition duration-300 relative">
             <CardBody className="p-4">
-              <div className="flex justify-between items-center mb-2">
-                <h4 className="text-xl font-bold">{field.title}</h4>
-                <span className="text-green-500">{field.rating} ★</span>
-              </div>
-              <p className="text-sm text-gray-600">{field.address}</p>
+              <h4 className="text-xl font-bold">{field.descripcion}</h4>
+              <p>Precio: ${field.precio}</p>
+              <p>Estado: {field.estado}</p>
             </CardBody>
             <div className="absolute top-2 right-2 flex gap-2">
-              <Button
-                auto
+              <button
                 onClick={() => openEditModal(index)}
-                className="bg-yellow-500 text-white hover:bg-yellow-600"
+                className="bg-yellow-500 text-white p-2 rounded hover:bg-yellow-600"
               >
                 <MdEdit />
-              </Button>
-              <Button
-                auto
-                onClick={() => deleteField(index)}
-                className="bg-red-500 text-white hover:bg-red-600"
+              </button>
+              <button
+                onClick={() => handleDeleteField(index)}
+                className="bg-red-500 text-white p-2 rounded hover:bg-red-600"
               >
                 <MdDelete />
-              </Button>
+              </button>
             </div>
           </Card>
         ))}
       </div>
 
-      {/* Modal para añadir o editar una cancha */}
-      <Modal open={isModalOpen} onClose={closeModal} preventClose>
-        <Modal.Header>
-          <h2 className="text-xl font-bold">{editingFieldIndex !== null ? 'Editar Cancha' : 'Añadir Nueva Cancha'}</h2>
-        </Modal.Header>
-        <Modal.Body>
-          <div className="space-y-4">
-            <Input
-              label="Nombre de la cancha"
-              name="title"
-              fullWidth
-              value={newField.title}
-              onChange={handleInputChange}
-            />
-            <Textarea
-              label="Dirección"
-              name="address"
-              fullWidth
-              value={newField.address}
-              onChange={handleInputChange}
-            />
-            <Input
-              label="URL de la Imagen"
-              name="imageSrc"
-              fullWidth
-              value={newField.imageSrc}
-              onChange={handleInputChange}
-            />
+      {/* Modal para añadir/editar cancha */}
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg shadow-lg p-8 w-96">
+            <h2 className="text-2xl font-bold mb-4">
+              {editingFieldIndex !== null ? "Editar Cancha" : "Añadir Nueva Cancha"}
+            </h2>
+            <div className="space-y-4">
+              <input
+                type="text"
+                name="descripcion"
+                placeholder="Descripción"
+                value={newField.descripcion}
+                onChange={handleInputChange}
+                className="w-full border border-gray-300 rounded p-2 focus:outline-none focus:border-blue-500"
+              />
+              <input
+                type="number"
+                name="precio"
+                placeholder="Precio"
+                value={newField.precio}
+                onChange={handleInputChange}
+                className="w-full border border-gray-300 rounded p-2 focus:outline-none focus:border-blue-500"
+              />
+              <select
+                name="estado"
+                value={newField.estado}
+                onChange={handleInputChange}
+                className="w-full border border-gray-300 rounded p-2 focus:outline-none focus:border-blue-500"
+              >
+                <option value="Disponible">Disponible</option>
+                <option value="Ocupada">Ocupada</option>
+              </select>
+            </div>
+            <div className="flex justify-end space-x-4 mt-6">
+              <button
+                onClick={closeModal}
+                className="bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600"
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={handleSaveField}
+                className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600"
+              >
+                {editingFieldIndex !== null ? "Guardar Cambios" : "Añadir Cancha"}
+              </button>
+            </div>
           </div>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button auto onClick={closeModal} className="mr-2">
-            Cancelar
-          </Button>
-          <Button
-            auto
-            onClick={handleSaveField}
-            className="bg-green-500 text-white hover:bg-green-600"
-          >
-            {editingFieldIndex !== null ? 'Guardar Cambios' : 'Añadir Cancha'}
-          </Button>
-        </Modal.Footer>
-      </Modal>
+        </div>
+      )}
     </div>
   );
 };

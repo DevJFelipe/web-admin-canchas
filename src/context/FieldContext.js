@@ -25,14 +25,37 @@ export const FieldProvider = ({ children }) => {
     }
   };
 
+  // Función para añadir una nueva cancha
+  const addField = async (newField) => {
+    try {
+      // Aquí simulamos una API si no tienes backend conectado
+      setFields((prevFields) => [...prevFields, newField]);
+    } catch (error) {
+      console.error('Error al añadir la cancha:', error);
+    }
+  };
+
+  // Función para editar una cancha
+  const editField = (index, updatedField) => {
+    setFields((prevFields) => {
+      const newFields = [...prevFields];
+      newFields[index] = updatedField;
+      return newFields;
+    });
+  };
+
+  // Función para eliminar una cancha
+  const deleteField = (index) => {
+    setFields((prevFields) => prevFields.filter((_, i) => i !== index));
+  };
+
   // Llamar a la función fetchFields al montar el componente
   useEffect(() => {
     fetchFields();
   }, []);
 
-  // Exportar funciones y datos del contexto
   return (
-    <FieldContext.Provider value={{ fields, fetchFields }}>
+    <FieldContext.Provider value={{ fields, fetchFields, addField, editField, deleteField }}>
       {children}
     </FieldContext.Provider>
   );
