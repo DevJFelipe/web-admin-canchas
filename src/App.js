@@ -9,27 +9,32 @@ import Reservation from './pages/Reservation';
 import ListFieldReservation from './pages/ListFieldReservation';
 import DetailedFieldView from './pages/DetailedFieldView';
 import Admin from './pages/Admin';
-import { FieldProvider } from './context/FieldContext'; // Importar el FieldProvider
-import { AuthProvider } from './context/AuthContext'; // Importar el AuthProvider
+import Checkout from './pages/Checkout'; // Importar la nueva página Checkout
+import { FieldProvider } from './context/FieldContext';
+import { AuthProvider } from './context/AuthContext';
+import { ReservationProvider } from './context/ReservationContext';
 
 function App() {
   return (
-    <AuthProvider> {/* Envolver la aplicación con AuthProvider */}
-      <FieldProvider> {/* Envolver también con FieldProvider */}
-        <Router>
-          <div className="App">
-            <NavBar />
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/reservation" element={<Reservation />} />
-              <Route path="/list-field-reservation" element={<ListFieldReservation />} />
-              <Route path="/detailed-field" element={<DetailedFieldView />} />
-              <Route path="/admin" element={<Admin />} />
-            </Routes>
-          </div>
-        </Router>
+    <AuthProvider>
+      <FieldProvider>
+        <ReservationProvider>
+          <Router>
+            <div className="App">
+              <NavBar />
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/reservation" element={<Reservation />} />
+                <Route path="/list-field-reservation" element={<ListFieldReservation />} />
+                <Route path="/detailed-field" element={<DetailedFieldView />} />
+                <Route path="/checkout" element={<Checkout />} /> {/* Nueva ruta para Checkout */}
+                <Route path="/admin" element={<Admin />} />
+              </Routes>
+            </div>
+          </Router>
+        </ReservationProvider>
       </FieldProvider>
     </AuthProvider>
   );

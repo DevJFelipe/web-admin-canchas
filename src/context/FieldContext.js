@@ -1,45 +1,38 @@
-import React, { createContext, useState } from 'react';
+// src/context/FieldContext.js
+import React, { createContext, useState, useContext, useEffect } from 'react';
 
-// Crear el contexto
 export const FieldContext = createContext();
 
-// Proveedor del contexto
+export const useField = () => {
+  const context = useContext(FieldContext);
+  if (!context) {
+    throw new Error("useField must be used within a FieldProvider");
+  }
+  return context;
+};
+
 export const FieldProvider = ({ children }) => {
-  const [fields, setFields] = useState([
-    {
-      title: "LA CALDERA",
-      address: "6to Piso La 14 Avenida 6ta Avenida 6N #3...",
-      imageSrc: require("../assets/img/cancha1.jpeg"),
-      rating: 5,
-    },
-    {
-      title: "La Chilena Sintéticas",
-      address: "Km 5 vía Panamericana Cali-Jamundí ...",
-      imageSrc: require("../assets/img/cancha2.jpg"),
-      rating: 5,
-    },
-  ]);
+  const [fields, setFields] = useState([]);
 
-  // Añadir una nueva cancha
-  const addField = (field) => {
-    setFields([...fields, field]);
+  // Función para obtener la lista de canchas desde el backend
+  const fetchFields = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/api/fields');
+      const data = await response.json();
+      setFields(data);
+    } catch (error) {
+      console.error('Error al obtener las canchas:', error);
+    }
   };
 
-  // Editar una cancha existente
-  const editField = (index, updatedField) => {
-    const updatedFields = [...fields];
-    updatedFields[index] = updatedField;
-    setFields(updatedFields);
-  };
+  // Llamar a la función fetchFields al montar el componente
+  useEffect(() => {
+    fetchFields();
+  }, []);
 
-  // Eliminar una cancha
-  const deleteField = (index) => {
-    const updatedFields = fields.filter((_, i) => i !== index);
-    setFields(updatedFields);
-  };
-
+  // Exportar funciones y datos del contexto
   return (
-    <FieldContext.Provider value={{ fields, addField, editField, deleteField }}>
+    <FieldContext.Provider value={{ fields, fetchFields }}>
       {children}
     </FieldContext.Provider>
   );
