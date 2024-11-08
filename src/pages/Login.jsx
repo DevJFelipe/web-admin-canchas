@@ -2,25 +2,25 @@ import React, { useState, useContext } from 'react';
 import { FaGoogle, FaApple, FaFacebookF } from 'react-icons/fa';
 import bgImage from '../assets/img/bg-image-login.png';
 import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '../context/AuthContext'; // Importar el contexto
+import { AuthContext } from '../context/AuthContext';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
-  const { login } = useContext(AuthContext); // Obtener la función de login desde el contexto
+  const { login } = useContext(AuthContext);
 
-  // Nueva lógica para el manejo del inicio de sesión utilizando Local Storage
   const handleLogin = (e) => {
     e.preventDefault();
-    
+
+    // Obtener usuarios almacenados en Local Storage
     const storedUsers = JSON.parse(localStorage.getItem('users')) || [];
     const user = storedUsers.find(
       (user) => user.email === email && user.password === password
     );
 
     if (user) {
-      login(user); // Llamar a la función de login del contexto con el usuario autenticado
+      login(user); // Llamar a la función de login con el objeto del usuario
       navigate('/'); // Redirigir a la página de inicio
     } else {
       alert('Usuario o contraseña incorrecta');
@@ -68,10 +68,6 @@ const Login = () => {
               onChange={(e) => setPassword(e.target.value)}
               required
             />
-          </div>
-          <div className="flex items-center mb-4">
-            <input type="checkbox" id="remember" className="mr-2" />
-            <label htmlFor="remember" className="text-sm">Recordarme</label>
           </div>
           <button
             type="submit"

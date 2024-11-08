@@ -13,6 +13,7 @@ import Checkout from './pages/Checkout'; // Importar la nueva página Checkout
 import { FieldProvider } from './context/FieldContext';
 import { AuthProvider } from './context/AuthContext';
 import { ReservationProvider } from './context/ReservationContext';
+import UserProfile from './pages/UserProfile';
 
 function App() {
   return (
@@ -31,6 +32,8 @@ function App() {
                 <Route path="/detailed-field" element={<DetailedFieldView />} />
                 <Route path="/checkout" element={<Checkout />} /> {/* Nueva ruta para Checkout */}
                 <Route path="/admin" element={<Admin />} />
+                <Route path="/profile" element={<UserProfile />} />
+
               </Routes>
             </div>
           </Router>
