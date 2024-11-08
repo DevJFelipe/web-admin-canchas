@@ -1,8 +1,32 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FaGoogle, FaApple, FaFacebookF } from 'react-icons/fa';
 import bgImage from '../assets/img/bg-image-register.png';
+import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+
+  // Nueva lógica para manejar el registro
+  const handleRegister = (e) => {
+    e.preventDefault();
+
+    const storedUsers = JSON.parse(localStorage.getItem('users')) || [];
+    const userExists = storedUsers.some(user => user.email === email);
+
+    if (userExists) {
+      alert('El usuario ya está registrado');
+    } else {
+      // Crear un nuevo usuario y guardarlo en Local Storage
+      storedUsers.push({ name, email, password });
+      localStorage.setItem('users', JSON.stringify(storedUsers));
+      alert('Registro exitoso');
+      navigate('/login');
+    }
+  };
+
   return (
     <div
       className="register-page"
@@ -35,13 +59,16 @@ const Register = () => {
         <p className="text-center mb-4">
           ¿Ya tienes una cuenta? <a href="/login" className="text-green-500">Iniciar sesión</a>
         </p>
-        <form>
+        <form onSubmit={handleRegister}>
           <div className="mb-4">
             <label className="block text-sm font-medium mb-1">Nombre</label>
             <input
               type="text"
               placeholder="John"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               className="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-green-500"
+              required
             />
           </div>
           <div className="mb-4">
@@ -49,7 +76,10 @@ const Register = () => {
             <input
               type="email"
               placeholder="johndoe@example.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-green-500"
+              required
             />
           </div>
           <div className="mb-4">
@@ -57,11 +87,14 @@ const Register = () => {
             <input
               type="password"
               placeholder="********"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               className="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-green-500"
+              required
             />
           </div>
           <div className="flex items-center mb-4">
-            <input type="checkbox" id="terms" className="mr-2" />
+            <input type="checkbox" id="terms" className="mr-2" required />
             <label htmlFor="terms" className="text-sm">
               Acepto los Términos de Servicio y la Política de Privacidad
             </label>

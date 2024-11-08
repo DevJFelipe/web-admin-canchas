@@ -10,16 +10,18 @@ const Login = () => {
   const navigate = useNavigate();
   const { login } = useContext(AuthContext); // Obtener la función de login desde el contexto
 
+  // Nueva lógica para el manejo del inicio de sesión utilizando Local Storage
   const handleLogin = (e) => {
     e.preventDefault();
     
-    // Simulación de autenticación
-    if (email === 'admin@example.com' && password === 'password123') {
-      login('admin'); // Llamar a la función de login del contexto con el rol "admin"
-      navigate('/');
-    } else if (email === 'user@example.com' && password === 'password123') {
-      login('user'); // Llamar a la función de login del contexto con el rol "user"
-      navigate('/');
+    const storedUsers = JSON.parse(localStorage.getItem('users')) || [];
+    const user = storedUsers.find(
+      (user) => user.email === email && user.password === password
+    );
+
+    if (user) {
+      login(user); // Llamar a la función de login del contexto con el usuario autenticado
+      navigate('/'); // Redirigir a la página de inicio
     } else {
       alert('Usuario o contraseña incorrecta');
     }
@@ -40,7 +42,10 @@ const Login = () => {
     >
       <div className="login-container bg-white p-8 rounded shadow-lg">
         <h2 className="text-2xl font-bold text-center mb-6">Iniciar sesión</h2>
-        <p className="text-center mb-4">¿Nunca usaste Playground? <a href="/register" className="text-green-500">Regístrate gratis</a></p>
+        <p className="text-center mb-4">
+          ¿Nunca usaste Playground?{' '}
+          <a href="/register" className="text-green-500">Regístrate gratis</a>
+        </p>
         <form onSubmit={handleLogin}>
           <div className="mb-4">
             <label className="block text-sm font-medium mb-1">Correo electrónico</label>
@@ -50,6 +55,7 @@ const Login = () => {
               className="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-green-500"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              required
             />
           </div>
           <div className="mb-4">
@@ -60,6 +66,7 @@ const Login = () => {
               className="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-green-500"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              required
             />
           </div>
           <div className="flex items-center mb-4">
