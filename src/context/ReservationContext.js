@@ -7,8 +7,10 @@ export const useReservation = () => useContext(ReservationContext);
 
 export const ReservationProvider = ({ children }) => {
   const [reservationData, setReservationData] = useState({
-    date: '',
-    time: '',
+    fecha: '',
+    hora: '',
+    usuario: '',
+    cacha: '',
   });
 
   const updateReservation = (data) => {

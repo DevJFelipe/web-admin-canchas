@@ -1,5 +1,6 @@
 // src/context/FieldContext.js
 import React, { createContext, useState, useContext, useEffect } from 'react';
+import { getCanchas, createCancha, updateCancha, deleteCancha } from '../api/canchas';
 
 export const FieldContext = createContext();
 
@@ -17,8 +18,7 @@ export const FieldProvider = ({ children }) => {
   // Función para obtener la lista de canchas desde el backend
   const fetchFields = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/fields');
-      const data = await response.json();
+      const data = await getCanchas();
       setFields(data);
     } catch (error) {
       console.error('Error al obtener las canchas:', error);
@@ -28,26 +28,41 @@ export const FieldProvider = ({ children }) => {
   // Función para añadir una nueva cancha
   const addField = async (newField) => {
     try {
-      // Aquí simulamos una API si no tienes backend conectado
-      setFields((prevFields) => [...prevFields, newField]);
+      const createdField = await createCancha(newField);
+      setFields(prevFields => [...prevFields, createdField]);
+      return createdField;
     } catch (error) {
       console.error('Error al añadir la cancha:', error);
+      throw error;
     }
   };
 
   // Función para editar una cancha
-  const editField = (index, updatedField) => {
-    setFields((prevFields) => {
-      const newFields = [...prevFields];
-      newFields[index] = updatedField;
-      return newFields;
-    });
-  };
+  const editField = async (id, updatedField) => {
+    try {
+        const updatedData = await updateCancha(id, updatedField);
+        setFields(prevFields => 
+            prevFields.map(field => 
+                field._id === id ? updatedData : field
+            )
+        );
+        return updatedData;
+    } catch (error) {
+        console.error('Error al actualizar la cancha:', error);
+        throw error;
+    }
+};
 
   // Función para eliminar una cancha
-  const deleteField = (index) => {
-    setFields((prevFields) => prevFields.filter((_, i) => i !== index));
-  };
+  const deleteField = async (id) => {
+    try {
+        await deleteCancha(id);
+        setFields(prevFields => prevFields.filter(field => field._id !== id));
+    } catch (error) {
+        console.error('Error al eliminar la cancha:', error);
+        throw error;
+    }
+};
 
   // Llamar a la función fetchFields al montar el componente
   useEffect(() => {
@@ -55,7 +70,13 @@ export const FieldProvider = ({ children }) => {
   }, []);
 
   return (
-    <FieldContext.Provider value={{ fields, fetchFields, addField, editField, deleteField }}>
+    <FieldContext.Provider value={{ 
+      fields, 
+      fetchFields, 
+      addField, 
+      editField, 
+      deleteField 
+    }}>
       {children}
     </FieldContext.Provider>
   );

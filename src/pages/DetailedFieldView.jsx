@@ -11,7 +11,7 @@ const DetailedFieldView = () => {
   const { reservationData, updateReservation } = useReservation();
   
   const [field, setField] = useState(null);
-  const [selectedTime, setSelectedTime] = useState(reservationData.time);
+  const [selectedTime, setSelectedTime] = useState(reservationData.hora);
 
   useEffect(() => {
     if (state && state.field) {
@@ -27,16 +27,16 @@ const DetailedFieldView = () => {
 
     // Actualizar la hora en el contexto antes de navegar
     updateReservation({
-      time: selectedTime,
-      date: reservationData.date // Mantener la fecha seleccionada originalmente
+      hora: selectedTime,
+      fecha: reservationData.date // Mantener la fecha seleccionada originalmente
     });
 
     const reservationDetails = {
       field,
-      date: reservationData.date,
-      time: selectedTime,
+      fecha: reservationData.fecha,
+      hora: selectedTime,
       usuario: "Juan Felipe Andrade Vargas",
-      price: 50000
+      precio: 50000
     };
 
     // Navegar a la página de Checkout con los detalles de la reserva

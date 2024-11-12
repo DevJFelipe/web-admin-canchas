@@ -44,37 +44,47 @@ const Admin = () => {
   };
 
   // Función para añadir o editar cancha
-  const handleSaveField = () => {
+  const handleSaveField = async () => {
     if (!newField.descripcion || !newField.precio) {
       alert("Todos los campos son obligatorios");
       return;
     }
 
-    // Crear el objeto con los datos que se enviarán
     const fieldData = {
       descripcion: newField.descripcion,
-      precio: parseFloat(newField.precio), // Convertir precio a número
+      precio: parseFloat(newField.precio),
       estado: newField.estado,
     };
 
-    // Confirmar que se están enviando los datos correctos
-    console.log("Datos a enviar:", fieldData);
-
-    if (editingFieldIndex !== null) {
-      // Editar cancha existente
-      editField(editingFieldIndex, fieldData);
-    } else {
-      // Añadir nueva cancha
-      addField(fieldData);
+    try {
+      if (editingFieldIndex !== null) {
+        const fieldToEdit = fields[editingFieldIndex];
+        await editField(fieldToEdit._id, fieldData);
+      } else {
+        await addField(fieldData);
+      }
+      closeModal();
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Error al guardar la cancha');
     }
-
-    closeModal();
   };
 
   // Función para eliminar una cancha
-  const handleDeleteField = (index) => {
+  const handleDeleteField = async (index) => {
+    const fieldToDelete = fields[index];
+    if (!fieldToDelete?._id) {
+      console.error('Invalid field ID');
+      return;
+    }
+
     if (window.confirm("¿Estás seguro de que quieres eliminar esta cancha?")) {
-      deleteField(index);
+      try {
+        await deleteField(fieldToDelete._id);
+      } catch (error) {
+        console.error('Error al eliminar:', error);
+        alert('Error al eliminar la cancha');
+      }
     }
   };
 

@@ -74,7 +74,7 @@ const handleNext = () => {
     console.log("Datos de la reserva enviados:", reservationData);
 
     updateReservation(reservationData);
-    navigate("/list-field-reservation");
+    navigate("/checkout");
   } else {
     alert("Por favor, selecciona una fecha y una hora.");
   }

@@ -27,7 +27,7 @@ const NavBar = () => {
           </Link>
         </NavbarItem>
         <NavbarItem>
-          <Link href="/reservation">
+          <Link href="/list-field-reservation">
             Reserva tu cancha
           </Link>
         </NavbarItem>

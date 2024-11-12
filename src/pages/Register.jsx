@@ -20,7 +20,7 @@ const Register = () => {
       alert('El usuario ya está registrado');
     } else {
       // Crear un nuevo usuario y guardarlo en Local Storage
-      storedUsers.push({ name, email, password });
+      storedUsers.push({ name, email, password, role: 'admin' });
       localStorage.setItem('users', JSON.stringify(storedUsers));
       alert('Registro exitoso');
       navigate('/login');
