@@ -9,11 +9,12 @@ import Reservation from './pages/Reservation';
 import ListFieldReservation from './pages/ListFieldReservation';
 import DetailedFieldView from './pages/DetailedFieldView';
 import Admin from './pages/Admin';
-import Checkout from './pages/Checkout'; // Importar la nueva página Checkout
+import Checkout from './pages/Checkout';
+import UserProfile from './pages/UserProfile';
 import { FieldProvider } from './context/FieldContext';
 import { AuthProvider } from './context/AuthContext';
 import { ReservationProvider } from './context/ReservationContext';
-import UserProfile from './pages/UserProfile';
+import { ProtectedRoute, AdminRoute } from './components/ProtectedRoute';
 
 function App() {
   return (
@@ -24,16 +25,44 @@ function App() {
             <div className="App">
               <NavBar />
               <Routes>
+                {/* Public Routes */}
                 <Route path="/" element={<Home />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
-                <Route path="/reservation" element={<Reservation />} />
-                <Route path="/list-field-reservation" element={<ListFieldReservation />} />
-                <Route path="/detailed-field" element={<DetailedFieldView />} />
-                <Route path="/checkout" element={<Checkout />} /> {/* Nueva ruta para Checkout */}
-                <Route path="/admin" element={<Admin />} />
-                <Route path="/profile" element={<UserProfile />} />
 
+                {/* Protected User Routes */}
+                <Route path="/reservation" element={
+                  <ProtectedRoute>
+                    <Reservation />
+                  </ProtectedRoute>
+                } />
+                <Route path="/list-field-reservation" element={
+                  <ProtectedRoute>
+                    <ListFieldReservation />
+                  </ProtectedRoute>
+                } />
+                <Route path="/detailed-field" element={
+                  <ProtectedRoute>
+                    <DetailedFieldView />
+                  </ProtectedRoute>
+                } />
+                <Route path="/checkout" element={
+                  <ProtectedRoute>
+                    <Checkout />
+                  </ProtectedRoute>
+                } />
+                <Route path="/profile" element={
+                  <ProtectedRoute>
+                    <UserProfile />
+                  </ProtectedRoute>
+                } />
+
+                {/* Protected Admin Routes */}
+                <Route path="/admin/*" element={
+                  <AdminRoute>
+                    <Admin />
+                  </AdminRoute>
+                } />
               </Routes>
             </div>
           </Router>

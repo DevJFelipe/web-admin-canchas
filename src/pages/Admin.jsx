@@ -1,4 +1,4 @@
-import { Card, CardBody, Image } from "@nextui-org/react";
+import { Card, CardBody } from "@nextui-org/react";
 import { MdEdit, MdDelete } from "react-icons/md";
 import { useState, useContext } from "react";
 import { FieldContext } from "../context/FieldContext";
@@ -50,13 +50,13 @@ const Admin = () => {
       return;
     }
 
-    const fieldData = {
-      descripcion: newField.descripcion,
-      precio: parseFloat(newField.precio),
-      estado: newField.estado,
-    };
-
     try {
+      const fieldData = {
+        descripcion: newField.descripcion,
+        precio: parseFloat(newField.precio),
+        estado: newField.estado,
+      };
+
       if (editingFieldIndex !== null) {
         const fieldToEdit = fields[editingFieldIndex];
         await editField(fieldToEdit._id, fieldData);
@@ -66,7 +66,7 @@ const Admin = () => {
       closeModal();
     } catch (error) {
       console.error('Error:', error);
-      alert('Error al guardar la cancha');
+      alert(error.response?.data?.message || 'Error al guardar la cancha');
     }
   };
 
@@ -74,7 +74,7 @@ const Admin = () => {
   const handleDeleteField = async (index) => {
     const fieldToDelete = fields[index];
     if (!fieldToDelete?._id) {
-      console.error('Invalid field ID');
+      alert('ID de cancha inválido');
       return;
     }
 
@@ -82,8 +82,8 @@ const Admin = () => {
       try {
         await deleteField(fieldToDelete._id);
       } catch (error) {
-        console.error('Error al eliminar:', error);
-        alert('Error al eliminar la cancha');
+        console.error('Error:', error);
+        alert(error.response?.data?.message || 'Error al eliminar la cancha');
       }
     }
   };

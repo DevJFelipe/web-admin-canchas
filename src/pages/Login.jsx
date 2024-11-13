@@ -10,20 +10,32 @@ const Login = () => {
   const navigate = useNavigate();
   const { login } = useContext(AuthContext);
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
-    // Obtener usuarios almacenados en Local Storage
-    const storedUsers = JSON.parse(localStorage.getItem('users')) || [];
-    const user = storedUsers.find(
-      (user) => user.email === email && user.password === password
-    );
+    try {
+      const response = await fetch('http://localhost:7100/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email, password })
+      });
 
-    if (user) {
-      login(user); // Llamar a la función de login con el objeto del usuario
-      navigate('/'); // Redirigir a la página de inicio
-    } else {
-      alert('Usuario o contraseña incorrecta');
+      const data = await response.json();
+
+      if (response.ok) {
+        login(data);
+        if (data.role === 'admin') {
+          navigate('/admin');
+        } else {
+          navigate('/');
+        }
+      } else {
+        alert(data.message || 'Error al iniciar sesión');
+      }
+    } catch (error) {
+      alert('Error de conexión');
     }
   };
 

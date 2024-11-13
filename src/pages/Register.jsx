@@ -1,29 +1,48 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { FaGoogle, FaApple, FaFacebookF } from 'react-icons/fa';
 import bgImage from '../assets/img/bg-image-register.png';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';
 
 const Register = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [telefono, setTelefono] = useState('');
+  const [cedula, setCedula] = useState('');
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
 
-  // Nueva lógica para manejar el registro
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
 
-    const storedUsers = JSON.parse(localStorage.getItem('users')) || [];
-    const userExists = storedUsers.some(user => user.email === email);
+    try {
+      const response = await fetch('http://localhost:7100/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          nombre: name,
+          email,
+          password,
+          telefono,
+          cedula,
+          role: 'user' // Asignamos el rol user por defecto
+        }),
+      });
 
-    if (userExists) {
-      alert('El usuario ya está registrado');
-    } else {
-      // Crear un nuevo usuario y guardarlo en Local Storage
-      storedUsers.push({ name, email, password, role: 'admin' });
-      localStorage.setItem('users', JSON.stringify(storedUsers));
-      alert('Registro exitoso');
-      navigate('/login');
+      const data = await response.json();
+
+      if (response.ok) {
+        login(data); // Guardamos los datos del usuario en el contexto
+        alert('Registro exitoso');
+        navigate('/');
+      } else {
+        alert(data.message || 'Error en el registro');
+      }
+    } catch (error) {
+      alert('Error de conexión');
     }
   };
 
@@ -78,6 +97,28 @@ const Register = () => {
               placeholder="johndoe@example.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              className="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-green-500"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-sm font-medium mb-1">Teléfono</label>
+            <input
+              type="tel"
+              placeholder="123456789"
+              value={telefono}
+              onChange={(e) => setTelefono(e.target.value)}
+              className="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-green-500"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-sm font-medium mb-1">Cédula</label>
+            <input
+              type="text"
+              placeholder="123456789"
+              value={cedula}
+              onChange={(e) => setCedula(e.target.value)}
               className="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-green-500"
               required
             />
