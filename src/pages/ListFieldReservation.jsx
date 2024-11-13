@@ -7,16 +7,14 @@ import { getCanchas } from '../api/canchas.js';
 
 
 // Componente para mostrar las tarjetas de las canchas
-const FieldCard = ({ field,  }) => {
+const FieldCard = ({ field }) => {
 
-  const [canchaSeleccionada, setCanchaSeleccionada] = useState(null);
   const navigate = useNavigate();
   const { updateReservation } = useReservation();
 
 
   const handleSelect = () => {
-    updateReservation({ cacha: field._id });
-    setCanchaSeleccionada(field._id);
+    updateReservation({ cancha: field }); // Store the entire field object
     navigate('/reservation');
   };
 

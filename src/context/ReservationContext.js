@@ -7,14 +7,14 @@ export const useReservation = () => useContext(ReservationContext);
 
 export const ReservationProvider = ({ children }) => {
   const [reservationData, setReservationData] = useState({
-    fecha: '',
-    hora: '',
-    usuario: '',
-    cacha: '',
+    date: '',
+    time: '',
+    cancha: null,  // Store the entire cancha object
+    userId: ''
   });
 
   const updateReservation = (data) => {
-    setReservationData((prev) => ({ ...prev, ...data }));
+    setReservationData(prev => ({ ...prev, ...data }));
   };
 
   return (

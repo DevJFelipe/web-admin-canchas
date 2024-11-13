@@ -31,6 +31,13 @@ const NavBar = () => {
             Quienes somos
           </Link>
         </NavbarItem>
+        {user && !isAdmin() && (
+          <NavbarItem>
+            <Link href="/my-reservations" className="text-blue-500">
+              Mis Reservas
+            </Link>
+          </NavbarItem>
+        )}
         {isAdmin() && (
           <NavbarItem>
             <Link href="/admin" className="text-green-500 font-bold">

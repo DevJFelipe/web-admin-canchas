@@ -10,6 +10,7 @@ import ListFieldReservation from './pages/ListFieldReservation';
 import Admin from './pages/Admin';
 import Checkout from './pages/Checkout';
 import UserProfile from './pages/UserProfile';
+import ReservedFields from './pages/ReservedFields';
 import { FieldProvider } from './context/FieldContext';
 import { AuthProvider } from './context/AuthContext';
 import { ReservationProvider } from './context/ReservationContext';
@@ -48,6 +49,11 @@ function App() {
                 <Route path="/profile" element={
                   <ProtectedRoute>
                     <UserProfile />
+                  </ProtectedRoute>
+                } />
+                <Route path="/my-reservations" element={
+                  <ProtectedRoute>
+                    <ReservedFields />
                   </ProtectedRoute>
                 } />
 

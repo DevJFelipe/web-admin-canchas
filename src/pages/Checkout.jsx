@@ -1,38 +1,39 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useReservation } from "../context/ReservationContext";
-import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Card, CardBody, Button } from "@nextui-org/react";
-import { HiLocationMarker } from "react-icons/hi";
 import { FaUserCircle } from "react-icons/fa";
+import { AuthContext } from "../context/AuthContext";
+import { createReserva } from "../api/reservas";
 
 const Checkout = () => {
   const { reservationData } = useReservation();
-  const location = useLocation();
-  const { state } = location;
+  const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
 
-  if (!state?.field || !reservationData) {
-    return <div>Reserva no encontrada. Por favor, vuelve y selecciona un campo.</div>;
+  // Redirect if no reservation data
+  if (!reservationData.cancha || !reservationData.date || !reservationData.time) {
+    navigate('/list-field-reservation');
+    return null;
   }
 
-  const { field } = state;
-  const { date, time } = reservationData;
+  const handleReservation = async () => {
+    try {
+      const reservation = {
+        fecha: reservationData.date,
+        hora: reservationData.time,
+        usuario: user.id, // Now using the actual user ID from AuthContext
+        cancha: reservationData.cancha._id
+      };
 
-  // Detalles simulados
-  const userName = "Juan Felipe Andrade Vargas";
-  const userId = "64b8f3f2f2f2f2f2f2f2f2f2";
-  const reservationPrice = 50000;
-  const reservationDeposit = 25000;
-
-  const handleReservation = () => {
-    const reservation = {
-      fecha: date,
-      hora: time,
-      usuario: userId,
-      cancha: field._id,
-    };
-
-    console.log("Datos de la reserva enviados:", reservation);
-    alert("¡Reserva confirmada! Revisa la consola para los detalles.");
+      const response = await createReserva(reservation);
+      console.log("Reserva creada:", response);
+      alert("¡Reserva realizada con éxito!");
+      navigate("/");  // Redirect to home or another appropriate page
+    } catch (error) {
+      console.error("Error al crear la reserva:", error);
+      alert("Error al realizar la reserva. Por favor, intente nuevamente.");
+    }
   };
 
   return (
@@ -44,25 +45,25 @@ const Checkout = () => {
           </h2>
 
           <div className="bg-white p-4 rounded-md shadow-md mb-6">
-            <h3 className="text-xl font-bold">{field.descripcion}</h3>
-            <p className="text-gray-600">{field.address}</p>
-            <p className="text-green-600 mt-2 font-semibold">Fecha: {date}</p>
-            <p className="text-green-600 font-semibold">Hora: {time}</p>
+            <h3 className="text-xl font-bold">{reservationData.cancha.descripcion}</h3>
+            <p className="text-gray-600">{reservationData.cancha.address}</p>
+            <p className="text-green-600 mt-2 font-semibold">Fecha: {reservationData.date}</p>
+            <p className="text-green-600 font-semibold">Hora: {reservationData.time}</p>
           </div>
 
           <div className="bg-white p-4 rounded-md shadow-md mb-6">
             <h4 className="text-xl font-bold mb-2">Jugadores</h4>
             <div className="flex items-center gap-2 text-gray-700">
               <FaUserCircle size={24} />
-              <span className="font-semibold">Reservando: {userName}</span>
+              <span className="font-semibold">Reservando: {user?.name || 'Usuario'}</span>
             </div>
           </div>
 
           <div className="bg-blue-100 p-4 rounded-md shadow-md mb-6">
             <h4 className="text-xl font-bold mb-4">Total de la Reserva</h4>
-            <p className="text-lg">Precio total: <span className="font-semibold text-blue-700">${reservationPrice.toLocaleString()}</span></p>
+            <p className="text-lg">Precio total: <span className="font-semibold text-blue-700">${reservationData.cancha.precio.toLocaleString()}</span></p>
             <p className="text-sm text-gray-600">
-              Alternativas para reservar: Si abonas <span className="font-semibold">${reservationDeposit.toLocaleString()}</span>, el resto deberá ser pagado en el club.
+              Alternativas para reservar: Si abonas <span className="font-semibold">${(reservationData.cancha.precio / 2).toLocaleString()}</span>, el resto deberá ser pagado en el club.
             </p>
           </div>
 

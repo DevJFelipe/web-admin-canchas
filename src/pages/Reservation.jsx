@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@nextui-org/react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
@@ -66,19 +66,26 @@ const formatDate = (date) => {
 const handleNext = () => {
   if (selectedDay && selectedTime) {
     const formattedDate = formatDate(selectedDay.fullDate);
-    const reservationData = {
+    
+    // Update reservation with date and time
+    updateReservation({
       date: formattedDate,
-      time: selectedTime,
-    };
+      time: selectedTime
+    });
 
-    console.log("Datos de la reserva enviados:", reservationData);
-
-    updateReservation(reservationData);
+    // Navigate to checkout with current field data
     navigate("/checkout");
   } else {
     alert("Por favor, selecciona una fecha y una hora.");
   }
 };
+
+// Add validation at the start of component
+useEffect(() => {
+  if (!reservationData.cancha) {
+    navigate('/list-field-reservation');
+  }
+}, [reservationData.cancha, navigate]);
 
 
   return (
