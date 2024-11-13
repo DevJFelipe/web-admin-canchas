@@ -59,7 +59,9 @@ const Reservation = () => {
 
 // Formatear la fecha a "YYYY-MM-DD" sin ajustes de zona horaria
 const formatDate = (date) => {
-  return date.toLocaleDateString('en-CA'); // Formato "YYYY-MM-DD"
+  const offset = date.getTimezoneOffset();
+  const adjustedDate = new Date(date.getTime() - (offset * 60 * 1000));
+  return adjustedDate.toISOString().split('T')[0];
 };
 
 // Manejar el botón "Siguiente"
