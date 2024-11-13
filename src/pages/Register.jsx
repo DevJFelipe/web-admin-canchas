@@ -8,8 +8,6 @@ const Register = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [telefono, setTelefono] = useState('');
-  const [cedula, setCedula] = useState('');
   const navigate = useNavigate();
   const { login } = useContext(AuthContext);
 
@@ -26,8 +24,8 @@ const Register = () => {
           nombre: name,
           email,
           password,
-          telefono,
-          cedula,
+          telefono: '000000000', // Valor por defecto
+          cedula: '000000000',   // Valor por defecto
           role: 'user' // Asignamos el rol user por defecto
         }),
       });
@@ -97,28 +95,6 @@ const Register = () => {
               placeholder="johndoe@example.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-green-500"
-              required
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block text-sm font-medium mb-1">Teléfono</label>
-            <input
-              type="tel"
-              placeholder="123456789"
-              value={telefono}
-              onChange={(e) => setTelefono(e.target.value)}
-              className="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-green-500"
-              required
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block text-sm font-medium mb-1">Cédula</label>
-            <input
-              type="text"
-              placeholder="123456789"
-              value={cedula}
-              onChange={(e) => setCedula(e.target.value)}
               className="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-green-500"
               required
             />

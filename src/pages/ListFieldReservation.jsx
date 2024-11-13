@@ -4,22 +4,15 @@ import { useNavigate } from "react-router-dom";
 import { useReservation } from '../context/ReservationContext';
 import { getCanchas } from '../api/canchas.js';
 
-
-
 // Componente para mostrar las tarjetas de las canchas
 const FieldCard = ({ field }) => {
-
   const navigate = useNavigate();
   const { updateReservation } = useReservation();
 
-
   const handleSelect = () => {
-    updateReservation({ cancha: field }); // Store the entire field object
+    updateReservation({ cancha: field });
     navigate('/reservation');
   };
-
-
-
 
   return (
     <div onClick={handleSelect} className="cursor-pointer w-full h-full">
@@ -27,10 +20,8 @@ const FieldCard = ({ field }) => {
         <CardBody className="p-4">
           <div className="flex justify-between items-center mb-2">
             <h4 className="text-xl font-bold">{field.descripcion}</h4>
-            <span className="text-green-500">{field.precio} $</span>
-            <span className="text-gray-500">{field._id}</span>
+            <span className="text-green-500">${field.precio}</span>
           </div>
-          <p className="text-sm text-gray-600">{field.address}</p>
           <p className={`text-sm ${field.estado === "Disponible" ? "text-green-500" : "text-red-500"}`}>
             {field.estado}
           </p>
@@ -39,7 +30,6 @@ const FieldCard = ({ field }) => {
     </div>
   );
 };
-
 
 const ListaCanchas = () => {
   const [canchas, setCanchas] = useState([]);
@@ -65,6 +55,5 @@ const ListaCanchas = () => {
     </div>
   );
 }
-
 
 export default ListaCanchas;
