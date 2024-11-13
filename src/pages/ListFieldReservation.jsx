@@ -10,19 +10,24 @@ const FieldCard = ({ field }) => {
   const { updateReservation } = useReservation();
 
   const handleSelect = () => {
-    updateReservation({ cancha: field });
-    navigate('/reservation');
+    if (field.estado === "Disponible") {
+      updateReservation({ cancha: field });
+      navigate('/reservation');
+    }
   };
 
   return (
-    <div onClick={handleSelect} className="cursor-pointer w-full h-full">
-      <Card className="shadow-lg transition-transform transform hover:scale-105 hover:shadow-xl">
+    <div 
+      onClick={handleSelect} 
+      className={`cursor-pointer w-full h-full ${field.estado !== "Disponible" ? "opacity-60 cursor-not-allowed" : ""}`}
+    >
+      <Card className={`shadow-lg transition-transform ${field.estado === "Disponible" ? "hover:scale-105 hover:shadow-xl" : ""}`}>
         <CardBody className="p-4">
           <div className="flex justify-between items-center mb-2">
             <h4 className="text-xl font-bold">{field.descripcion}</h4>
             <span className="text-green-500">${field.precio}</span>
           </div>
-          <p className={`text-sm ${field.estado === "Disponible" ? "text-green-500" : "text-red-500"}`}>
+          <p className={`text-sm ${field.estado === "Disponible" ? "text-green-500" : "text-red-500" }`}>
             {field.estado}
           </p>
         </CardBody>
