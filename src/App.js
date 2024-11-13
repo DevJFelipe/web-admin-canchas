@@ -7,7 +7,6 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Reservation from './pages/Reservation';
 import ListFieldReservation from './pages/ListFieldReservation';
-import DetailedFieldView from './pages/DetailedFieldView';
 import Admin from './pages/Admin';
 import Checkout from './pages/Checkout';
 import UserProfile from './pages/UserProfile';
@@ -39,11 +38,6 @@ function App() {
                 <Route path="/list-field-reservation" element={
                   <ProtectedRoute>
                     <ListFieldReservation />
-                  </ProtectedRoute>
-                } />
-                <Route path="/detailed-field" element={
-                  <ProtectedRoute>
-                    <DetailedFieldView />
                   </ProtectedRoute>
                 } />
                 <Route path="/checkout" element={
