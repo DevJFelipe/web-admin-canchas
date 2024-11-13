@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Card, CardBody, Button } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom"; // Add this import
-import { getUserReservas } from '../api/reservas';
+import { getUserReservas, deleteReserva } from '../api/reservas';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 
@@ -24,6 +24,19 @@ const ReservedFields = () => {
       console.error('Error:', err);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleDeleteReservation = async (id) => {
+    if (window.confirm('¿Estás seguro de que deseas eliminar esta reserva?')) {
+      try {
+        await deleteReserva(id);
+        // Refresh reservations after deletion
+        fetchReservations();
+      } catch (err) {
+        setError('Error al eliminar la reserva');
+        console.error('Error:', err);
+      }
     }
   };
 
@@ -73,6 +86,16 @@ const ReservedFields = () => {
                       ? 'Reserva pasada' 
                       : 'Reserva activa'}
                   </p>
+                </div>
+                <div className="mt-4 flex justify-end">
+                  <Button 
+                    color="danger"
+                    variant="flat"
+                    onClick={() => handleDeleteReservation(reservation._id)}
+                    className="text-sm"
+                  >
+                    Eliminar reserva
+                  </Button>
                 </div>
               </CardBody>
             </Card>

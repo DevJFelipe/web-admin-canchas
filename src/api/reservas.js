@@ -42,3 +42,17 @@ export const getUserReservas = async () => {
     throw error.response?.data || error;
   }
 };
+
+export const deleteReserva = async (id) => {
+  try {
+    const token = JSON.parse(localStorage.getItem('user'))?.token;
+    const response = await axiosInstance.delete(`/reservas/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || error;
+  }
+};
