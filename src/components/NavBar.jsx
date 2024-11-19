@@ -11,7 +11,7 @@ const NavBar = () => {
 
   return (
     <Navbar shouldHideOnScroll className='navbar flex items-center px-6 py-0 bg-white shadow-md w-full font-platypi'>
-      <NavbarBrand className="navbar-brand justify-start flex items-center gap-3">
+      <NavbarBrand className="navbar-brand justify-start flex items-start ">
         <Logo />
       </NavbarBrand>
 
